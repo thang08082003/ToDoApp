@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Form</title>
+  <style>
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .form-group.has-error input {
+      border-color: red;
+    }
+    .form-group.has-error .error-message {
+      color: red;
+    }
+    .btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <div class="error-message"></div>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" minlength="8" required>
+      <div class="error-message"></div>
+    </div>
+    <button type="submit" class="btn">Login</button>
+  </form>
+
+  <script>
+
+    const form = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      let isValid = true;
+
+   
+      if (emailInput.value.trim() === '') {
+        setError(emailInput, 'Email is required.');
+        isValid = false;
+      } else {
+        clearError(emailInput);
+      }
+
+      const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (!emailRegex.test(emailInput.value)) {
+        setError(emailInput, 'Email is not in the correct format.');
+        isValid = false;
+      } else {
+        clearError(emailInput);
+      }
+
+      if (passwordInput.value.length < 8) {
+        setError(passwordInput, 'Password must be at least 8 characters long.');
+        isValid = false;
+      } else {
+        clearError(passwordInput);
+      }
+
+      if (isValid) {
+        form.submit();
+      }
+    });
+
+    function setError(input, message) {
+      const formGroup = input.parentElement;
+      formGroup.classList.add('has-error');
+      const errorMessage = formGroup.querySelector('.error-message');
+      errorMessage.textContent = message;
+    }
+
+    function clearError(input) {
+      const formGroup = input.parentElement;
+      formGroup.classList.remove('has-error');
+      const errorMessage = formGroup.querySelector('.error-message');
+      errorMessage.textContent = '';
+    }
+  </script>
+</body>
+</html>
